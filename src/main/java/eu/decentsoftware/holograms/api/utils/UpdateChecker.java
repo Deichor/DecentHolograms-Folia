@@ -1,5 +1,6 @@
 package eu.decentsoftware.holograms.api.utils;
 
+import com.github.Anon8281.universalScheduler.UniversalScheduler;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -23,7 +24,7 @@ public class UpdateChecker {
     }
 
     public void getVersion(Consumer<String> consumer) {
-        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+        UniversalScheduler.getScheduler(plugin).runTaskAsynchronously(() -> {
             try (InputStream inputStream = new URL("https://api.spigotmc.org/legacy/update.php?resource=" + resourceId).openStream();
                  Scanner scanner = new Scanner(inputStream)) {
                 if (scanner.hasNext() && consumer != null) {

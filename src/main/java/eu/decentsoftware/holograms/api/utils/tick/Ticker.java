@@ -1,5 +1,6 @@
 package eu.decentsoftware.holograms.api.utils.tick;
 
+import com.github.Anon8281.universalScheduler.scheduling.tasks.MyScheduledTask;
 import eu.decentsoftware.holograms.api.utils.DExecutor;
 import eu.decentsoftware.holograms.api.utils.Log;
 import eu.decentsoftware.holograms.api.utils.collection.DList;
@@ -9,7 +10,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 public class Ticker {
 
-    private final int taskId;
+    private final MyScheduledTask task;
     private final AtomicLong ticks;
     private final DList<ITicked> tickedObjects;
     private final DList<ITicked> newTickedObjects;
@@ -25,16 +26,16 @@ public class Ticker {
         this.newTickedObjects = new DList<>(64);
         this.removeTickedObjects = new DList<>(64);
         this.performingTick = false;
-        this.taskId = S.asyncTask(() -> {
+        this.task = S.asyncTask(() -> {
             if (!performingTick) tick();
-        }, 1L, 5L).getTaskId();
+        }, 1L, 5L);
     }
 
     /**
      * Stop the ticker and unregister all ticked objects.
      */
     public void destroy() {
-        S.stopTask(taskId);
+        S.stopTask(task);
         tickedObjects.clear();
         newTickedObjects.clear();
         removeTickedObjects.clear();

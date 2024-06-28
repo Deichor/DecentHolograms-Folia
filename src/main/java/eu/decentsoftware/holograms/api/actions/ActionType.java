@@ -1,5 +1,6 @@
 package eu.decentsoftware.holograms.api.actions;
 
+import com.github.Anon8281.universalScheduler.UniversalScheduler;
 import com.google.common.collect.Maps;
 import eu.decentsoftware.holograms.api.DecentHolograms;
 import eu.decentsoftware.holograms.api.DecentHologramsAPI;
@@ -66,10 +67,12 @@ public abstract class ActionType {
             Validate.notNull(player);
 
             String string = String.join(" ", args);
-            Bukkit.getScheduler().runTask(DECENT_HOLOGRAMS.getPlugin(), () -> {
-                //
-                player.chat(PAPI.setPlaceholders(player, string.replace("{player}", player.getName())));
-            });
+            UniversalScheduler.getScheduler(DECENT_HOLOGRAMS.getPlugin()).runTask(
+                    () -> {
+                        player.chat(PAPI.setPlaceholders(player, string.replace("{player}", player.getName())));
+                    }
+            );
+
             return true;
         }
     };
@@ -80,10 +83,11 @@ public abstract class ActionType {
             Validate.notNull(player);
 
             String string = String.join(" ", args);
-            Bukkit.getScheduler().runTask(DECENT_HOLOGRAMS.getPlugin(), () -> {
-                //
+
+            UniversalScheduler.getScheduler(DECENT_HOLOGRAMS.getPlugin()).runTask(() -> {
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), PAPI.setPlaceholders(player, string.replace("{player}", player.getName())));
             });
+
             return true;
         }
     };
@@ -113,7 +117,9 @@ public abstract class ActionType {
             if (location == null) {
                 return false;
             }
-            Bukkit.getScheduler().runTask(DECENT_HOLOGRAMS.getPlugin(), () -> player.teleport(location));
+            UniversalScheduler.getScheduler(DECENT_HOLOGRAMS.getPlugin()).runTask(() -> {
+                player.teleport(location);
+            });
             return true;
         }
     };

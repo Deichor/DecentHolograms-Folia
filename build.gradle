@@ -16,6 +16,7 @@ repositories {
     maven { url = "https://repo.codemc.io/repository/nms/" }
     maven { url = "https://repo.codemc.io/repository/maven-public/" }
     maven { url = "https://repo.extendedclip.com/content/repositories/placeholderapi/" }
+    maven { url = "https://jitpack.io" }
 }
 
 dependencies {
@@ -25,6 +26,7 @@ dependencies {
     implementation "org.bstats:bstats-bukkit:3.0.2"
     implementation "de.tr7zw:item-nbt-api:2.13.1"
     implementation "com.github.cryptomorin:XSeries:10.0.0"
+    implementation 'com.github.Anon8281:UniversalScheduler:0.1.6'
 
     // Annotations
     compileOnly "org.projectlombok:lombok:1.18.32"
@@ -62,4 +64,5 @@ shadowJar {
     relocate "org.bstats", "eu.decentsoftware.holograms.metrics"
     relocate "de.tr7zw.changeme.nbtapi", "eu.decentsoftware.holograms.libs.nbtapi"
     relocate "com.cryptomorin.xseries", "eu.decentsoftware.holograms.libs.xseries"
+    relocate 'com.github.Anon8281.universalScheduler', 'eu.decentsoftware.holograms.libs.universalScheduler'
 }

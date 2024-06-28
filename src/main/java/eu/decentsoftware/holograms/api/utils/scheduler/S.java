@@ -1,35 +1,39 @@
 package eu.decentsoftware.holograms.api.utils.scheduler;
 
+import com.github.Anon8281.universalScheduler.UniversalScheduler;
+import com.github.Anon8281.universalScheduler.scheduling.tasks.MyScheduledTask;
 import eu.decentsoftware.holograms.api.DecentHolograms;
 import eu.decentsoftware.holograms.api.DecentHologramsAPI;
 import eu.decentsoftware.holograms.api.utils.DExecutor;
-import org.bukkit.Bukkit;
 import org.bukkit.plugin.IllegalPluginAccessException;
-import org.bukkit.scheduler.BukkitTask;
 
 public class S {
 
     private static final DecentHolograms DECENT_HOLOGRAMS = DecentHologramsAPI.get();
 
-    public static void stopTask(int id) {
-        Bukkit.getScheduler().cancelTask(id);
+    public static void stopTask(MyScheduledTask task) {
+        task.cancel();
     }
 
     public static void sync(Runnable runnable) {
-        Bukkit.getScheduler().runTask(DECENT_HOLOGRAMS.getPlugin(), runnable);
+        UniversalScheduler.getScheduler(DECENT_HOLOGRAMS.getPlugin()).runTask(runnable);
+        //Bukkit.getScheduler().runTask(DECENT_HOLOGRAMS.getPlugin(), runnable);
     }
 
-    public static BukkitTask sync(Runnable runnable, long delay) {
-        return Bukkit.getScheduler().runTaskLater(DECENT_HOLOGRAMS.getPlugin(), runnable, delay);
+    public static MyScheduledTask sync(Runnable runnable, long delay) {
+        return UniversalScheduler.getScheduler(DECENT_HOLOGRAMS.getPlugin()).runTaskLater(runnable, delay);
+        //return Bukkit.getScheduler().runTaskLater(DECENT_HOLOGRAMS.getPlugin(), runnable, delay);
     }
 
-    public static BukkitTask syncTask(Runnable runnable, long interval) {
-        return Bukkit.getScheduler().runTaskTimer(DECENT_HOLOGRAMS.getPlugin(), runnable, 0, interval);
+    public static MyScheduledTask syncTask(Runnable runnable, long interval) {
+        return UniversalScheduler.getScheduler(DECENT_HOLOGRAMS.getPlugin()).runTaskTimer(runnable, 0, interval);
+        //return Bukkit.getScheduler().runTaskTimer(DECENT_HOLOGRAMS.getPlugin(), runnable, 0, interval);
     }
 
     public static void async(Runnable runnable) {
         try {
-            Bukkit.getScheduler().runTaskAsynchronously(DECENT_HOLOGRAMS.getPlugin(), runnable);
+            UniversalScheduler.getScheduler(DECENT_HOLOGRAMS.getPlugin()).runTaskAsynchronously(runnable);
+            //Bukkit.getScheduler().runTaskAsynchronously(DECENT_HOLOGRAMS.getPlugin(), runnable);
         } catch (IllegalPluginAccessException e) {
             DExecutor.execute(runnable);
         }
@@ -37,18 +41,21 @@ public class S {
 
     public static void async(Runnable runnable, long delay) {
         try {
-            Bukkit.getScheduler().runTaskLaterAsynchronously(DECENT_HOLOGRAMS.getPlugin(), runnable, delay);
+            UniversalScheduler.getScheduler(DECENT_HOLOGRAMS.getPlugin()).runTaskLater(runnable, delay);
+            //Bukkit.getScheduler().runTaskLaterAsynchronously(DECENT_HOLOGRAMS.getPlugin(), runnable, delay);
         } catch (IllegalPluginAccessException e) {
             DExecutor.execute(runnable);
         }
     }
 
-    public static BukkitTask asyncTask(Runnable runnable, long interval) {
-        return Bukkit.getScheduler().runTaskTimerAsynchronously(DECENT_HOLOGRAMS.getPlugin(), runnable, 0, interval);
+    public static MyScheduledTask asyncTask(Runnable runnable, long interval) {
+        return asyncTask(runnable, 0, interval);
+        //return Bukkit.getScheduler().runTaskTimerAsynchronously(DECENT_HOLOGRAMS.getPlugin(), runnable, 0, interval);
     }
 
-    public static BukkitTask asyncTask(Runnable runnable, long interval, long delay) {
-        return Bukkit.getScheduler().runTaskTimerAsynchronously(DECENT_HOLOGRAMS.getPlugin(), runnable, delay, interval);
+    public static MyScheduledTask asyncTask(Runnable runnable, long interval, long delay) {
+        return UniversalScheduler.getScheduler(DECENT_HOLOGRAMS.getPlugin()).runTaskTimerAsynchronously(runnable, delay, interval);
+        //return Bukkit.getScheduler().runTaskTimerAsynchronously(DECENT_HOLOGRAMS.getPlugin(), runnable, delay, interval);
     }
 
 }
